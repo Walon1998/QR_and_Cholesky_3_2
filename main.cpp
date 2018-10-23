@@ -14,15 +14,9 @@ using namespace std;
  */
 void CholeskyQR(const Eigen::MatrixXd &A, Eigen::MatrixXd &R, Eigen::MatrixXd &Q) {
 
+    MatrixXd A2 = A.transpose() * A;
 
-    int maxnumber = max(A.cols(), A.rows());
-    MatrixXd A2 = MatrixXd::Zero(maxnumber, maxnumber);
-    cout << A2;
-    A2 = A;
-    cout << A2;
-
-//    assert(A.cols() == A.rows());
-    MatrixXd L = A.llt().matrixL();
+    MatrixXd L = A2.llt().matrixL();
     R = L.transpose();
     Q = A * (L.inverse()).transpose();
 
@@ -35,8 +29,6 @@ void CholeskyQR(const Eigen::MatrixXd &A, Eigen::MatrixXd &R, Eigen::MatrixXd &Q
  * @param[out] Q The orthogonal matrix from the QR decomposition of $A$
  */
 void DirectQR(const Eigen::MatrixXd &A, Eigen::MatrixXd &R, Eigen::MatrixXd &Q) {
-
-
 
 
     HouseholderQR<MatrixXd> qr(A);
