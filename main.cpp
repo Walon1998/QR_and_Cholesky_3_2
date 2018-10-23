@@ -30,10 +30,20 @@ void CholeskyQR(const Eigen::MatrixXd &A, Eigen::MatrixXd &R, Eigen::MatrixXd &Q
  */
 void DirectQR(const Eigen::MatrixXd &A, Eigen::MatrixXd &R, Eigen::MatrixXd &Q) {
 
+//    ColPivHouseholderQR<MatrixXd> qr(A);
+//    MatrixXd thinQ(MatrixXd::Identity(A.rows(), A.cols()));
+//    Q = qr.householderQ().setLength(qr.nonzeroPivots()) * thinQ;
+
+
+
 
     HouseholderQR<MatrixXd> qr(A);
-    Q = qr.householderQ();
-    R = qr.matrixQR().triangularView<Upper>();
+    MatrixXd thinQ(MatrixXd::Identity(A.rows(),A.cols()));
+    Q = qr.householderQ() * thinQ;
+
+   MatrixXd R2 = qr.matrixQR().triangularView<Upper>();
+   int size = Q.cols();
+    R = R2.block(0,0,size,size);
 
 
 }
@@ -44,8 +54,8 @@ int main() {
 
     Eigen::MatrixXd A(m, n);
     double epsilon = 1.e-8;
-    A << 3, 5, 1, 9, 7, 1;
-//    A << 1, 1, epsilon, 0, 0, epsilon;
+//    A << 3, 5, 1, 9, 7, 1;
+    A << 1, 1, epsilon, 0, 0, epsilon;
     std::cout << "A =" << std::endl << A << std::endl;
 
     Eigen::MatrixXd R, Q;
