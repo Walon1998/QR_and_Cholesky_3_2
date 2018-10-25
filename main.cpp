@@ -20,7 +20,6 @@ void CholeskyQR(const Eigen::MatrixXd &A, Eigen::MatrixXd &R, Eigen::MatrixXd &Q
     R = L.transpose();
     Q = A * (L.inverse()).transpose();
 
-
 }
 
 /* @brief Direct QR decomposition
@@ -42,9 +41,8 @@ void DirectQR(const Eigen::MatrixXd &A, Eigen::MatrixXd &R, Eigen::MatrixXd &Q) 
     Q = qr.householderQ() * thinQ;
 
    MatrixXd R2 = qr.matrixQR().triangularView<Upper>();
-   int size = Q.cols();
+   long size = Q.cols();
     R = R2.block(0,0,size,size);
-
 
 }
 
